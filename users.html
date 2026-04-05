@@ -595,7 +595,7 @@
                     localStorage.setItem('userId', data.id);
                     msgEl.classList.remove('error');
                     msgEl.classList.add('success');
-                    msgEl.textContent = '✅ Login successful!';
+                    msgEl.innerHTML = `✅ Login successful!<br><br><strong>Your Token:</strong><br><code style="display:block; background:#f0f0f0; padding:10px; margin-top:10px; word-break: break-all; border-radius:4px; font-size: 12px;">${data.access_token}</code>`;
                     msgEl.style.display = 'block';
                     setTimeout(async () => {
                         document.querySelector('[data-tab="profile"]').click();
