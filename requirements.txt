@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pydantic
+email-validator
+passlib[bcrypt]
+bcrypt
+PyJWT
+scikit-learn
+numpy
+joblib
+python-dotenv

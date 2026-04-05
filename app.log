@@ -1,0 +1,196 @@
+2026-04-05 18:47:54,913 - INFO - ✅ Database initialized - System ready
+2026-04-05 18:48:34,146 - INFO - � GET /users - Listing all accounts
+2026-04-05 18:48:34,148 - INFO - ✔️ GET /users - Found 0 accounts
+2026-04-05 18:49:11,840 - INFO - ✎ POST /users - Creating account: 1
+2026-04-05 18:49:11,845 - WARNING - (trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\Users\olami\AppData\Local\Programs\Python\Python313\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+2026-04-05 18:50:57,430 - INFO - ✅ Database initialized - System ready
+2026-04-05 18:51:44,168 - INFO - ✎ POST /users - Creating account: 1
+2026-04-05 18:51:44,702 - INFO - ✔️ POST /users - Account created: 1
+2026-04-05 18:52:01,185 - INFO - � GET /users - Listing all accounts
+2026-04-05 18:52:01,186 - INFO - ✔️ GET /users - Found 1 accounts
+2026-04-05 18:52:38,856 - INFO - � GET /users - Listing all accounts
+2026-04-05 18:52:38,858 - INFO - ✔️ GET /users - Found 1 accounts
+2026-04-05 18:52:50,644 - INFO - 🔐 POST /auth/login - Authenticating: 1
+2026-04-05 18:52:51,132 - INFO - ✔️ POST /auth/login - User authenticated: 1
+2026-04-05 18:52:51,641 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:52:51,644 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:52:51,650 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:52:51,652 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:53:10,003 - INFO - 📝 PUT /users/1 - Modifying account
+2026-04-05 18:54:46,777 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:54:46,779 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:54:50,691 - INFO - 📝 PUT /users/1 - Modifying account
+2026-04-05 18:54:56,967 - INFO - 📝 PUT /users/1 - Modifying account
+2026-04-05 18:54:57,444 - INFO - ✔️ PUT /users/1 - Account updated
+2026-04-05 18:55:12,023 - INFO - 🔐 POST /auth/login - Authenticating: 11
+2026-04-05 18:55:12,025 - WARNING - 🚫 POST /auth/login - Authentication denied: 11
+2026-04-05 18:55:14,014 - INFO - � GET /users - Listing all accounts
+2026-04-05 18:55:14,016 - INFO - ✔️ GET /users - Found 1 accounts
+2026-04-05 18:55:18,949 - INFO - 🔐 POST /auth/login - Authenticating: 1
+2026-04-05 18:55:19,400 - INFO - ✔️ POST /auth/login - User authenticated: 1
+2026-04-05 18:55:19,914 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:55:19,916 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:55:19,921 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:55:19,923 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:55:28,755 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:55:28,757 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:55:52,692 - INFO - ✔️ User session validated: 1
+2026-04-05 18:55:52,695 - INFO - 📈 POST /train - Training polynomial regression for 1 (degree=1, points=4)
+2026-04-05 18:55:52,720 - INFO - ✔️ POST /train - Model successfully trained for 1
+2026-04-05 18:55:58,212 - INFO - ✔️ User session validated: 1
+2026-04-05 18:55:58,214 - INFO - 🎯 GET /predict/4.0 - Making prediction for 1
+2026-04-05 18:55:58,228 - INFO - ✔️ GET /predict/4.0 - Prediction result: 3.11 hours for 1
+2026-04-05 18:56:14,301 - INFO - ✔️ User session validated: 1
+2026-04-05 18:56:14,303 - INFO - 🎯 GET /predict/4.8 - Making prediction for 1
+2026-04-05 18:56:14,320 - INFO - ✔️ GET /predict/4.8 - Prediction result: 2.67 hours for 1
+2026-04-05 18:56:25,746 - INFO - ✔️ User session validated: 1
+2026-04-05 18:56:25,748 - INFO - 🎯 GET /predict/6.2 - Making prediction for 1
+2026-04-05 18:56:25,775 - INFO - ✔️ GET /predict/6.2 - Prediction result: 1.89 hours for 1
+2026-04-05 18:56:33,473 - INFO - ✔️ User session validated: 1
+2026-04-05 18:56:33,474 - INFO - 📊 GET /accuracy - Calculating model accuracy for 1
+2026-04-05 18:56:33,478 - INFO - ✔️ GET /accuracy - Model performance score: -2.44 for 1
+2026-04-05 18:56:51,951 - INFO - ✔️ User session validated: 1
+2026-04-05 18:56:51,953 - INFO - 🎯 GET /predict/6.2 - Making prediction for 1
+2026-04-05 18:56:51,970 - INFO - ✔️ GET /predict/6.2 - Prediction result: 1.89 hours for 1
+2026-04-05 18:56:52,138 - INFO - ✔️ User session validated: 1
+2026-04-05 18:56:52,140 - INFO - 🎯 GET /predict/6.2 - Making prediction for 1
+2026-04-05 18:56:52,161 - INFO - ✔️ GET /predict/6.2 - Prediction result: 1.89 hours for 1
+2026-04-05 18:56:52,368 - INFO - ✔️ User session validated: 1
+2026-04-05 18:56:52,369 - INFO - 🎯 GET /predict/6.2 - Making prediction for 1
+2026-04-05 18:56:52,384 - INFO - ✔️ GET /predict/6.2 - Prediction result: 1.89 hours for 1
+2026-04-05 18:56:52,596 - INFO - ✔️ User session validated: 1
+2026-04-05 18:56:52,598 - INFO - 🎯 GET /predict/6.2 - Making prediction for 1
+2026-04-05 18:56:52,612 - INFO - ✔️ GET /predict/6.2 - Prediction result: 1.89 hours for 1
+2026-04-05 18:56:55,122 - INFO - ✔️ User session validated: 1
+2026-04-05 18:56:55,123 - INFO - 📈 POST /train - Training polynomial regression for 1 (degree=1, points=4)
+2026-04-05 18:56:55,130 - INFO - ✔️ POST /train - Model successfully trained for 1
+2026-04-05 18:56:56,687 - INFO - ✔️ User session validated: 1
+2026-04-05 18:56:56,688 - INFO - 📊 GET /accuracy - Calculating model accuracy for 1
+2026-04-05 18:56:56,693 - INFO - ✔️ GET /accuracy - Model performance score: -2.44 for 1
+2026-04-05 18:57:00,441 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:00,442 - INFO - 📈 POST /train - Training polynomial regression for 1 (degree=2, points=4)
+2026-04-05 18:57:00,449 - INFO - ✔️ POST /train - Model successfully trained for 1
+2026-04-05 18:57:01,689 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:01,690 - INFO - 📊 GET /accuracy - Calculating model accuracy for 1
+2026-04-05 18:57:01,694 - INFO - ✔️ GET /accuracy - Model performance score: -3.55 for 1
+2026-04-05 18:57:06,727 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:06,728 - INFO - 📈 POST /train - Training polynomial regression for 1 (degree=5, points=4)
+2026-04-05 18:57:06,738 - INFO - ✔️ POST /train - Model successfully trained for 1
+2026-04-05 18:57:09,664 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:09,666 - INFO - 📊 GET /accuracy - Calculating model accuracy for 1
+2026-04-05 18:57:09,671 - INFO - ✔️ GET /accuracy - Model performance score: -1128.58 for 1
+2026-04-05 18:57:36,901 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:36,902 - INFO - 💳 POST /purchase - Processing credits purchase from 1
+2026-04-05 18:57:36,914 - INFO - ✔️ POST /purchase - Credit purchase successful: 10 credits added for 1 (total: 13)
+2026-04-05 18:57:36,919 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:57:36,921 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:57:48,421 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:48,423 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:48,437 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:48,559 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:48,560 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:48,575 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:48,711 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:48,713 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:48,727 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:48,829 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:48,830 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:48,845 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:48,974 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:48,975 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:48,999 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:49,097 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:49,098 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:49,111 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:49,227 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:49,229 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:49,243 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:49,359 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:49,361 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:49,374 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:49,495 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:49,496 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:49,509 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:49,636 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:49,638 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:49,651 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:49,795 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:49,796 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:49,810 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:49,922 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:49,924 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:49,937 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:50,067 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:50,071 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:50,091 - INFO - ✔️ GET /predict/8.5 - Prediction result: 629.59 hours for 1
+2026-04-05 18:57:50,194 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:50,196 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:50,198 - WARNING - ⚠️ GET /predict/8.5 - Prediction credits exhausted for 1
+2026-04-05 18:57:50,336 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:50,338 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:50,340 - WARNING - ⚠️ GET /predict/8.5 - Prediction credits exhausted for 1
+2026-04-05 18:57:50,501 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:50,502 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:50,504 - WARNING - ⚠️ GET /predict/8.5 - Prediction credits exhausted for 1
+2026-04-05 18:57:50,728 - INFO - ✔️ User session validated: 1
+2026-04-05 18:57:50,729 - INFO - 🎯 GET /predict/8.5 - Making prediction for 1
+2026-04-05 18:57:50,732 - WARNING - ⚠️ GET /predict/8.5 - Prediction credits exhausted for 1
+2026-04-05 18:58:06,254 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:58:06,256 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:58:12,147 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:58:12,149 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:58:13,676 - INFO - � GET /users - Listing all accounts
+2026-04-05 18:58:13,678 - INFO - ✔️ GET /users - Found 1 accounts
+2026-04-05 18:58:15,200 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:58:15,202 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:58:24,070 - INFO - � GET /users - Listing all accounts
+2026-04-05 18:58:24,072 - INFO - ✔️ GET /users - Found 1 accounts
+2026-04-05 18:58:33,595 - INFO - 🔐 POST /auth/login - Authenticating: 1
+2026-04-05 18:58:34,075 - WARNING - 🚫 POST /auth/login - Authentication denied: 1
+2026-04-05 18:58:35,257 - INFO - 🔐 POST /auth/login - Authenticating: 1
+2026-04-05 18:58:35,747 - INFO - ✔️ POST /auth/login - User authenticated: 1
+2026-04-05 18:58:36,253 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:58:36,255 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:58:36,260 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:58:36,262 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:58:44,103 - INFO - 🔐 POST /auth/login - Authenticating: 1
+2026-04-05 18:58:44,605 - INFO - ✔️ POST /auth/login - User authenticated: 1
+2026-04-05 18:58:45,115 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:58:45,117 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:58:45,122 - INFO - 🔍 GET /users/1 - Retrieving account
+2026-04-05 18:58:45,124 - INFO - ✔️ GET /users/1 - Account found: 1
+2026-04-05 18:59:46,359 - INFO - ✔️ User session validated: 1
+2026-04-05 18:59:46,360 - INFO - 🔄 DELETE /users/1 - Removing account
+2026-04-05 18:59:46,363 - INFO -    ✓ Model file deleted: 1.joblib
+2026-04-05 18:59:46,371 - INFO - ✔️ DELETE /users/1 - Account deleted
+2026-04-05 19:00:21,830 - INFO - ✎ POST /users - Creating account: 2
+2026-04-05 19:00:22,322 - INFO - ✔️ POST /users - Account created: 2
+2026-04-05 19:00:26,705 - INFO - � GET /users - Listing all accounts
+2026-04-05 19:00:26,707 - INFO - ✔️ GET /users - Found 1 accounts
+2026-04-05 19:00:55,780 - INFO - 🔐 POST /auth/login - Authenticating: 2
+2026-04-05 19:00:56,271 - INFO - ✔️ POST /auth/login - User authenticated: 2
+2026-04-05 19:00:56,777 - INFO - 🔍 GET /users/2 - Retrieving account
+2026-04-05 19:00:56,779 - INFO - ✔️ GET /users/2 - Account found: 2
+2026-04-05 19:00:56,784 - INFO - 🔍 GET /users/2 - Retrieving account
+2026-04-05 19:00:56,786 - INFO - ✔️ GET /users/2 - Account found: 2
+2026-04-05 19:00:59,230 - INFO - � GET /users - Listing all accounts
+2026-04-05 19:00:59,232 - INFO - ✔️ GET /users - Found 1 accounts
+2026-04-05 19:01:02,521 - INFO - 🔍 GET /users/2 - Retrieving account
+2026-04-05 19:01:02,524 - INFO - ✔️ GET /users/2 - Account found: 2
+2026-04-05 19:01:08,542 - INFO - ✔️ User session validated: 2
+2026-04-05 19:01:08,543 - INFO - 📈 POST /train - Training polynomial regression for 2 (degree=5, points=4)
+2026-04-05 19:01:08,551 - INFO - ✔️ POST /train - Model successfully trained for 2
+2026-04-05 19:02:02,676 - INFO - ✅ Database initialized - System ready
+2026-04-05 19:04:14,538 - INFO - ✅ Database initialized - System ready
+2026-04-05 19:06:46,789 - INFO - ✅ Database initialized - System ready
+2026-04-05 19:06:56,558 - INFO - ✅ Database initialized - System ready
+2026-04-05 19:08:44,587 - INFO - ✅ Database initialized - System ready
+2026-04-05 19:08:53,809 - INFO - ✅ Database initialized - System ready
+2026-04-05 19:10:38,585 - INFO - ✅ Database initialized - System ready
+2026-04-05 19:10:47,297 - INFO - 🔍 GET /users/2 - Retrieving account
+2026-04-05 19:10:47,299 - INFO - ✔️ GET /users/2 - Account found: 2

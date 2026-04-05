@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running Time Prediction — ML Operations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:           #edf1f6;
+            --surface:      #ffffff;
+            --surface-2:    #f4f7fb;
+            --border:       #d4dfe9;
+            --border-bright:#b8ccdd;
+            --accent:       #1a46ff;
+            --accent-dim:   rgba(26,70,255,0.07);
+            --accent-glow:  rgba(26,70,255,0.22);
+            --text:         #0a1828;
+            --text-muted:   #6e8fa8;
+            --text-dim:     #c0d0de;
+            --red:          #e8203a;
+            --red-dim:      rgba(232,32,58,0.08);
+            --green:        #00a86a;
+            --green-dim:    rgba(0,168,106,0.08);
+            --blue:         #0090d8;
+            --blue-dim:     rgba(0,144,216,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            font-weight: 400;
+            background-color: var(--bg);
+            background-image:
+                linear-gradient(rgba(180,200,220,0.45) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(180,200,220,0.45) 1px, transparent 1px);
+            background-size: 52px 52px;
+            min-height: 100vh;
+            padding: 28px 20px;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        /* ── Header ── */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 32px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            position: relative;
+            animation: fadeDown 0.5s ease both;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--accent);
+            box-shadow: 0 0 24px var(--accent-glow), 0 0 60px rgba(200,255,0,0.12);
+        }
+
+        .site-title {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .site-title .eyebrow {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .site-title h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.2rem;
+            letter-spacing: 0.06em;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+
+        .user-meta {
+            display: flex;
+            gap: 20px;
+        }
+
+        .user-stat {
+            text-align: right;
+        }
+
+        .user-stat .stat-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .user-stat .stat-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        #credits { color: var(--accent); font-weight: 700; }
+
+        .btn-logout {
+            background: transparent;
+            color: var(--red);
+            border: 1px solid rgba(255,59,92,0.45);
+            padding: 6px 18px;
+            cursor: pointer;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            width: auto;
+            transition: all 0.2s;
+            margin-top: 4px;
+        }
+
+        .btn-logout:hover {
+            background: var(--red-dim);
+            border-color: var(--red);
+            box-shadow: 0 0 16px rgba(255,59,92,0.18);
+            transform: none;
+        }
+
+        /* ── Grid ── */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* ── Panel ── */
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 28px;
+            position: relative;
+            transition: border-color 0.3s;
+            animation: fadeUp 0.5s ease both;
+        }
+
+        .panel:nth-child(1) { animation-delay: 0.05s; }
+        .panel:nth-child(2) { animation-delay: 0.10s; }
+        .panel:nth-child(3) { animation-delay: 0.15s; }
+        .panel:nth-child(4) { animation-delay: 0.20s; }
+
+        .panel:hover {
+            border-color: var(--border-bright);
+        }
+
+        .panel-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .panel h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.55rem;
+            letter-spacing: 0.08em;
+            color: var(--text);
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ── Form elements ── */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.63rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.84rem;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2345606f'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+            cursor: pointer;
+        }
+
+        select option {
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px var(--accent), 0 0 20px var(--accent-dim);
+        }
+
+        input::placeholder { color: var(--text-dim); }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* ── Buttons ── */
+        button {
+            display: block;
+            width: 100%;
+            padding: 11px 20px;
+            background: var(--accent);
+            color: #ffffff;
+            border: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #2a56ff;
+            box-shadow: 0 0 28px var(--accent-glow);
+            transform: translateY(-1px);
+        }
+
+        button:active { transform: translateY(0); }
+
+        button:disabled {
+            background: var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* ── Messages ── */
+        .message {
+            padding: 11px 14px;
+            margin-top: 14px;
+            display: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.76rem;
+            border-left: 2px solid;
+            line-height: 1.5;
+        }
+
+        .message.success { background: var(--green-dim); color: var(--green); border-color: var(--green); }
+        .message.error   { background: var(--red-dim);   color: var(--red);   border-color: var(--red);   }
+        .message.info    { background: var(--blue-dim);  color: var(--blue);  border-color: var(--blue);  }
+
+        /* ── Results ── */
+        .result {
+            margin-top: 14px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-left: 2px solid var(--accent);
+            display: none;
+            overflow: hidden;
+        }
+
+        .result h3 {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-row:last-child { border-bottom: none; }
+
+        .result-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .result-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        /* ── Misc ── */
+        .panel-desc {
+            color: var(--text-muted);
+            font-size: 0.84rem;
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .price-note {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            padding: 8px 12px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            margin-bottom: 12px;
+        }
+
+        .price-note strong { color: var(--accent); }
+
+        /* ── Nav ── */
+        .nav-link {
+            text-align: center;
+            margin-top: 20px;
+            padding: 12px;
+        }
+
+        .nav-link a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .nav-link a:hover { color: var(--accent); }
+
+        /* ── Animations ── */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .content { grid-template-columns: 1fr; }
+            header { flex-direction: column; gap: 18px; }
+            .user-info { align-items: center; }
+            .user-meta { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="site-title">
+                <span class="eyebrow">ML Operations</span>
+                <h1>Running Time Prediction</h1>
+            </div>
+            <div class="user-info">
+                <div class="user-meta">
+                    <div class="user-stat">
+                        <span class="stat-label">User</span>
+                        <span class="stat-value" id="username">Loading…</span>
+                    </div>
+                    <div class="user-stat">
+                        <span class="stat-label">Credits</span>
+                        <span class="stat-value" id="credits">—</span>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="logout()">Sign Out</button>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- Train Model Panel -->
+            <div class="panel">
+                <p class="panel-label">01 — Training</p>
+                <h2>Train Model</h2>
+                <form id="trainForm">
+                    <div class="form-group">
+                        <label for="hours">Training Hours (comma-separated)</label>
+                        <input type="text" id="hours" placeholder="1,2,3,4,5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="times">Running Times (comma-separated)</label>
+                        <input type="text" id="times" placeholder="2,4,6,8,10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="degree">Polynomial Degree (1–5)</label>
+                        <input type="number" id="degree" min="1" max="5" value="2" required>
+                    </div>
+                    <button type="submit">Train Model</button>
+                </form>
+                <div id="train-message" class="message"></div>
+                <div id="train-result" class="result">
+                    <h3>Model Trained</h3>
+                    <div class="result-row">
+                        <span class="result-label">Status</span>
+                        <span class="result-value" id="train-status">Ready for predictions</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Predict Panel -->
+            <div class="panel">
+                <p class="panel-label">02 — Inference</p>
+                <h2>Make Prediction</h2>
+                <form id="predictForm">
+                    <div class="form-group">
+                        <label for="predict-hours">Hours of Training</label>
+                        <input type="number" id="predict-hours" step="0.1" placeholder="3.5" required>
+                    </div>
+                    <button type="submit" id="predict-btn">Run Prediction</button>
+                </form>
+                <div id="predict-message" class="message"></div>
+                <div id="predict-result" class="result">
+                    <h3>Prediction Result</h3>
+                    <div class="result-row">
+                        <span class="result-label">Hours</span>
+                        <span class="result-value" id="pred-hours">—</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Predicted Time</span>
+                        <span class="result-value" id="pred-time">—</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Credits Remaining</span>
+                        <span class="result-value" id="pred-credits">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accuracy Panel -->
+            <div class="panel">
+                <p class="panel-label">03 — Evaluation</p>
+                <h2>Model Accuracy</h2>
+                <p class="panel-desc">Get the R² score for your trained model. Values range 0.0–1.0; closer to 1.0 is better.</p>
+                <button onclick="getAccuracy()">Check Accuracy</button>
+                <div id="accuracy-message" class="message"></div>
+                <div id="accuracy-result" class="result">
+                    <h3>Accuracy Score</h3>
+                    <div class="result-row">
+                        <span class="result-label">R² Score</span>
+                        <span class="result-value" id="r2-score">—</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Quality</span>
+                        <span class="result-value" id="r2-quality">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchase Credits Panel -->
+            <div class="panel">
+                <p class="panel-label">04 — Billing</p>
+                <h2>Purchase Credits</h2>
+                <form id="purchaseForm">
+                    <div class="form-group">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" id="card-number" placeholder="4532 1111 1111 1111" maxlength="19" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card-expiry">Expiry (MM/YY)</label>
+                            <input type="text" id="card-expiry" placeholder="12/25" maxlength="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="card-cvv">CVV</label>
+                            <input type="text" id="card-cvv" placeholder="123" maxlength="3" required>
+                        </div>
+                    </div>
+                    <div class="price-note"><strong>10 predictions</strong> — $9.99</div>
+                    <button type="submit">Complete Purchase</button>
+                </form>
+                <div id="purchase-message" class="message"></div>
+                <div id="purchase-result" class="result">
+                    <h3>Purchase Successful</h3>
+                    <div class="result-row">
+                        <span class="result-label">Credits Added</span>
+                        <span class="result-value" id="purchase-credits">10</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-link">
+            <a href="/">← Back to User Management</a>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+        let modelTrained = false;
+
+        // Initialize
+        window.addEventListener('load', async () => {
+            await loadUserInfo();
+        });
+
+        // Load user info
+        async function loadUserInfo() {
+            const token = localStorage.getItem('token');
+            const username = localStorage.getItem('username');
+
+            if (!token || !username) {
+                alert('Please login first');
+                window.location.href = '/';
+                return;
+            }
+
+            document.getElementById('username').textContent = username;
+            const userId = localStorage.getItem('userId');
+
+            try {
+                const response = await fetch(`${API_BASE}/users/${userId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('credits').textContent = data.predictions_remaining || 0;
+                }
+            } catch (error) {
+                console.error('Error loading user info:', error);
+            }
+        }
+
+        // Train model
+        document.getElementById('trainForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem('token');
+
+            try {
+                const hours = document.getElementById('hours').value.split(',').map(x => parseFloat(x.trim()));
+                const times = document.getElementById('times').value.split(',').map(x => parseFloat(x.trim()));
+                const degree = parseInt(document.getElementById('degree').value);
+
+                const response = await fetch(`${API_BASE}/ml/train`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        X: hours,
+                        Y: times,
+                        degree: degree
+                    })
+                });
+
+                const msgEl = document.getElementById('train-message');
+                const resultEl = document.getElementById('train-result');
+
+                if (response.ok) {
+                    const data = await response.json();
+                    msgEl.classList.remove('error');
+                    msgEl.classList.add('success');
+                    msgEl.textContent = '✅ Model trained successfully!';
+                    msgEl.style.display = 'block';
+                    resultEl.style.display = 'block';
+                    modelTrained = true;
+                    sessionStorage.setItem('modelTrained', 'true');
+                    document.getElementById('predict-btn').disabled = false;
+                } else {
+                    let errorMessage = 'Training failed';
+                    try {
+                        const data = await response.json();
+                        if (data.detail) {
+                            // Handle both string and array error messages
+                            if (Array.isArray(data.detail)) {
+                                errorMessage = data.detail.map(e => {
+                                    if (typeof e === 'string') return e;
+                                    if (e.msg) return `${e.loc?.join(' → ')}: ${e.msg}`;
+                                    return JSON.stringify(e);
+                                }).join('; ');
+                            } else if (typeof data.detail === 'string') {
+                                errorMessage = data.detail;
+                            } else {
+                                errorMessage = JSON.stringify(data.detail);
+                            }
+                        }
+                    } catch (parseErr) {
+                        errorMessage = 'Server error (invalid response)';
+                    }
+                    msgEl.classList.remove('success');
+                    msgEl.classList.add('error');
+                    msgEl.textContent = '❌ Error: ' + errorMessage;
+                    msgEl.style.display = 'block';
+                    resultEl.style.display = 'none';
+                }
+            } catch (error) {
+                const msgEl = document.getElementById('train-message');
+                msgEl.classList.remove('success');
+                msgEl.classList.add('error');
+                msgEl.textContent = '❌ Error: ' + error.message;
+                msgEl.style.display = 'block';
+            }
+        });
+
+        // Make prediction
+        document.getElementById('predictForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem('token');
+            const hours = parseFloat(document.getElementById('predict-hours').value);
+
+            try {
+                const response = await fetch(`${API_BASE}/ml/predict/${hours}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const msgEl = document.getElementById('predict-message');
+                const resultEl = document.getElementById('predict-result');
+
+                if (response.ok) {
+                    const data = await response.json();
+                    msgEl.classList.remove('error');
+                    msgEl.style.display = 'none';
+                    resultEl.style.display = 'block';
+                    
+                    // Use the hours value from the input field
+                    document.getElementById('pred-hours').textContent = hours;
+                    
+                    // Handle predicted_running_time from backend
+                    const predictedTime = data.predicted_running_time || data.predicted_time;
+                    if (predictedTime !== undefined && predictedTime !== null) {
+                        document.getElementById('pred-time').textContent = parseFloat(predictedTime).toFixed(2);
+                    } else {
+                        document.getElementById('pred-time').textContent = '—';
+                    }
+                    
+                    document.getElementById('credits').textContent = data.predictions_remaining || '-';
+                    document.getElementById('pred-credits').textContent = data.predictions_remaining || 0;
+                } else {
+                    let errorMessage = 'Prediction failed';
+                    try {
+                        const data = await response.json();
+                        if (data.detail) {
+                            if (Array.isArray(data.detail)) {
+                                errorMessage = data.detail.map(e => typeof e === 'string' ? e : (e.msg || JSON.stringify(e))).join('; ');
+                            } else if (typeof data.detail === 'string') {
+                                errorMessage = data.detail;
+                            } else {
+                                errorMessage = JSON.stringify(data.detail);
+                            }
+                        }
+                    } catch (parseErr) {
+                        errorMessage = 'Server error (invalid response)';
+                    }
+                    msgEl.classList.remove('success');
+                    msgEl.classList.add('error');
+                    msgEl.textContent = '❌ Error: ' + errorMessage;
+                    msgEl.style.display = 'block';
+                    resultEl.style.display = 'none';
+                }
+            } catch (error) {
+                const msgEl = document.getElementById('predict-message');
+                msgEl.classList.remove('success');
+                msgEl.classList.add('error');
+                msgEl.textContent = '❌ Error: ' + error.message;
+                msgEl.style.display = 'block';
+            }
+        });
+
+        // Get accuracy
+        async function getAccuracy() {
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await fetch(`${API_BASE}/ml/accuracy`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const msgEl = document.getElementById('accuracy-message');
+                const resultEl = document.getElementById('accuracy-result');
+
+                if (response.ok) {
+                    const data = await response.json();
+                    msgEl.style.display = 'none';
+                    resultEl.style.display = 'block';
+                    const r2 = parseFloat(data.accuracy || data.message || 0);
+                    document.getElementById('r2-score').textContent = r2.toFixed(4);
+
+                    let quality = 'Poor';
+                    if (r2 >= 0.95) quality = 'Excellent';
+                    else if (r2 >= 0.80) quality = 'Good';
+                    else if (r2 >= 0.50) quality = 'Fair';
+                    document.getElementById('r2-quality').textContent = quality;
+                } else {
+                    let errorMessage = 'Failed to get accuracy';
+                    try {
+                        const data = await response.json();
+                        if (data.detail) {
+                            if (Array.isArray(data.detail)) {
+                                errorMessage = data.detail.map(e => typeof e === 'string' ? e : (e.msg || JSON.stringify(e))).join('; ');
+                            } else if (typeof data.detail === 'string') {
+                                errorMessage = data.detail;
+                            } else {
+                                errorMessage = JSON.stringify(data.detail);
+                            }
+                        }
+                    } catch (parseErr) {
+                        errorMessage = 'Server error (invalid response)';
+                    }
+                    msgEl.classList.remove('success');
+                    msgEl.classList.add('error');
+                    msgEl.textContent = '❌ Error: ' + errorMessage;
+                    msgEl.style.display = 'block';
+                    resultEl.style.display = 'none';
+                }
+            } catch (error) {
+                const msgEl = document.getElementById('accuracy-message');
+                msgEl.classList.remove('success');
+                msgEl.classList.add('error');
+                msgEl.textContent = '❌ Error: ' + error.message;
+                msgEl.style.display = 'block';
+            }
+        }
+
+        // Purchase credits
+        document.getElementById('purchaseForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem('token');
+            const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+            const expiry = document.getElementById('card-expiry').value;
+            const cvv = document.getElementById('card-cvv').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/ml/purchase`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        card_number: cardNumber,
+                        expiry: expiry,
+                        cvv: cvv
+                    })
+                });
+
+                const msgEl = document.getElementById('purchase-message');
+                const resultEl = document.getElementById('purchase-result');
+
+                if (response.ok) {
+                    const data = await response.json();
+                    msgEl.style.display = 'none';
+                    resultEl.style.display = 'block';
+                    await loadUserInfo();
+                    document.getElementById('purchaseForm').reset();
+                } else {
+                    let errorMessage = 'Purchase failed';
+                    try {
+                        const data = await response.json();
+                        if (data.detail) {
+                            if (Array.isArray(data.detail)) {
+                                errorMessage = data.detail.map(e => typeof e === 'string' ? e : (e.msg || JSON.stringify(e))).join('; ');
+                            } else if (typeof data.detail === 'string') {
+                                errorMessage = data.detail;
+                            } else {
+                                errorMessage = JSON.stringify(data.detail);
+                            }
+                        }
+                    } catch (parseErr) {
+                        errorMessage = 'Server error (invalid response)';
+                    }
+                    msgEl.classList.remove('success');
+                    msgEl.classList.add('error');
+                    msgEl.textContent = '❌ Error: ' + errorMessage;
+                    msgEl.style.display = 'block';
+                    resultEl.style.display = 'none';
+                }
+            } catch (error) {
+                const msgEl = document.getElementById('purchase-message');
+                msgEl.classList.remove('success');
+                msgEl.classList.add('error');
+                msgEl.textContent = '❌ Error: ' + error.message;
+                msgEl.style.display = 'block';
+            }
+        });
+
+        // Logout
+        function logout() {
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.href = '/';
+        }
+
+        // Format expiry input
+        document.getElementById('card-expiry').addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            e.target.value = value;
+        });
+
+        // Format card number input
+        document.getElementById('card-number').addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\s/g, '');
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>
